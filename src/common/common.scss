@@ -1,0 +1,7 @@
+.clear-fix-float {
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
