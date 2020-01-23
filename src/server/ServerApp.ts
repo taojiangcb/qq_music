@@ -11,13 +11,16 @@ import { errorHandler } from './middleware/ErrorHandler';
 
 import './controllers/IndexController';
 import './services/IndexServices';
+import { resolve } from 'path';
+
 
 const container = new Container();
 container.load(buildProviderModule());
 
 const server = new InversifyKoaServer(container);
 server.setConfig(app => {
-  app.use(serve(config.paths.static));
+  console.log(config.paths.static.slice(1));
+  app.use(serve(resolve(config.paths.static.slice(1))));
   app.context.render = co.wrap(render({
     root: config.paths.view,
     autoescape: true,
@@ -30,8 +33,6 @@ server.setConfig(app => {
 })
 
 const app = server.build();
-app.use(serve(config.paths.static));
-
 const port: number = config.http_port || 3000;
 app.listen(port, () => {
   console.log('server at ' + port);

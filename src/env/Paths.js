@@ -3,7 +3,6 @@ const { resolve } = path;
 
 module.exports = {
   root: resolve(__dirname, "../../"),
-  view: resolve(__dirname, "../bin/views"),
-  static: resolve(__dirname, "../bin/assets"),
+  static: resolve(__dirname, "../../bin"),
   binDir: resolve(__dirname, "../../bin"),
 }

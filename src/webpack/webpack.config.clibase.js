@@ -1,4 +1,3 @@
-import { plugins } from './webpack.config.base';
 
 const path = require('path')
 const { resolve } = path;
@@ -19,7 +18,7 @@ const webpack_build_cilbase = merge(baseConf, {
   },
 
   output: {
-    path: appPath.binDir,
+    path: resolve(__dirname, '../../bin'),
     filename: "[name].[contenthash:8].js",
   },
 
@@ -70,17 +69,15 @@ const webpack_build_cilbase = merge(baseConf, {
   },
   plugins: [
 
-  
+    // app 模块
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, '../template/index.html'),
+      filename: 'ssrindex.html',
+      // chunks: ['common', 'app']
+    }),
 
-    // // app 模块
-    // new HtmlWebpackPlugin({
-    //   template: resolve(__dirname, '../template/index.html'),
-    //   filename: 'index.html',
-    //   // chunks: ['common', 'app']
-    // }),
-
-    //插入环境变量   // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // new InterpolateHtmlPlugin(env.raw),
+    // 插入环境变量   // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    new InterpolateHtmlPlugin(env.raw),
   ]
 })
 

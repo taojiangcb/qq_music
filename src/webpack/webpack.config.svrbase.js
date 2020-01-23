@@ -14,7 +14,7 @@ const webpack_build_dev = merge(baseConf, {
 
   output: {
     path: appPath.binDir,
-    filename: "svr.[contenthash:8].js",
+    filename: "ssr-svr.js",
   },
   externals: [nodeExternals()]
 })
