@@ -27,7 +27,7 @@ export class IndexService implements IndexServer {
   private htmltemp: string = "";
 
 
-  async render(store: Store, ctx: RouterContext, context: StaticRouterContext & contextProp) {
+  render(store: Store, ctx: RouterContext, context: StaticRouterContext & contextProp) {
     //指定当前路由的路径和路由的穿透参数 
     //context 穿透参数 贯穿整个路由的组件
     //localtion 当前路由的路径
@@ -48,7 +48,7 @@ export class IndexService implements IndexServer {
 
     if (!this.htmltemp) {
       console.log(__dirname);
-      this.htmltemp = String(fs.readFileSync('123.txt'));//await promiseReadFile('ssrindex.html');
+      this.htmltemp = String(fs.readFileSync('bin/ssrindex.html'));
     }
 
     const helmet = Helmet.renderStatic();

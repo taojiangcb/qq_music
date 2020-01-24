@@ -2,14 +2,13 @@ import { interfaces, TYPE, controller, httpGet } from "inversify-koa-utils";
 import { provideThrowable, TAGS, TYPES } from "../ioc/Ioc";
 import { inject } from "inversify";
 import { IRouterContext } from 'koa-router'
-import { Model } from "../../modules/User";
 
 import { matchRoutes } from 'react-router-config';
 import { ssrStore } from "../../store/Store";
 import { Routers } from "../../routers/Routers";
 import { StaticRouterContext } from "react-router";
 import { IndexServer } from '../interface/IndexService';
-import fs from 'fs';
+
 @controller('/')
 @provideThrowable(TYPE.Controller, 'IndexController')
 export class IndexController implements interfaces.Controller {
@@ -21,9 +20,6 @@ export class IndexController implements interfaces.Controller {
 
   @httpGet('*')
   private async index(ctx: IRouterContext) {
-
-    console.log(fs.readFileSync('ssrindex.html'));
-
     //获取一个 sotre() 的实例
     let store = ssrStore();
     let matchedRouters = matchRoutes(Routers, ctx.request.path);
@@ -47,13 +43,14 @@ export class IndexController implements interfaces.Controller {
       .then(async load => {
         //定义服务器的路由渲染的穿透参数
         let context: StaticRouterContext & { NOT_FUND?: boolean } = {};
-        let html = await this.indexService.render(store, ctx, context);
+        let html = this.indexService.render(store, ctx, context);
         if (context.action === 'REPLACE') {
           ctx.redirect(context.url);
         }
         else if (context.NOT_FUND) {
           ctx.response.status = 404;
         }
+        console.log(html);
         ctx.response.body = html;
       });
   }

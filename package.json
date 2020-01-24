@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all --parallel dev:**",
-    "dev:ssr:start": "nodemon --watch bin --exec node ./bin/ssr-svr.js",
+    "dev:ssr:start": "nodemon --watch bin --exec sudo node ./bin/ssr-svr.js",
     "dev:build:svr": "webpack --mode development --config ./src/webpack/webpack.config.svrbase.js --watch",
     "dev:build:cli": "webpack --mode development --config ./src/webpack/webpack.config.clibase.js --watch"
   },
