@@ -3,7 +3,7 @@ import React from 'react';
 import { Home } from "../pages/home/Home";
 import { Login } from "../pages/login/Login";
 import { RouteConfig } from 'react-router-config';
-import { AppRouters } from '../pages/routeApp/RouteApp';
+import { AppRouters } from './RouteApp';
 import { NotFund } from '../pages/notFund/NotFund';
 
 export const Routers: RouteConfig[] = [

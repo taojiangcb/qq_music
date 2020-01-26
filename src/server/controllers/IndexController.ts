@@ -50,7 +50,6 @@ export class IndexController implements interfaces.Controller {
         else if (context.NOT_FUND) {
           ctx.response.status = 404;
         }
-        console.log(html);
         ctx.response.body = html;
       });
   }

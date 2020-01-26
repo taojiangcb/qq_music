@@ -12,6 +12,3 @@ export const AppRouters = (props) => {
   )
 }
 
-// AppRouters.loadData = (store)=> {
-//   return store.dispatch(onIsLogin());
-// }

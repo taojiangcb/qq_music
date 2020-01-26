@@ -11,18 +11,6 @@ const promiseReadFile = (path: string) => {
         resolve(String(data));
       }
     })
-    // let readStream = fs.createReadStream(path);
-    // let bytes: string = "";
-    // readStream.setEncoding('UTF8');
-    // readStream.on('data', (thunk) => {
-    //   bytes += thunk;
-    // })
-    // readStream.on('end', () => {
-    //   resolve(bytes);
-    // })
-    // readStream.on('error', (err) => {
-    //   reject(err.stack || err.message);
-    // })
   })
 }
 

@@ -1,5 +1,6 @@
 // import { Log } from "../log/Log";
-import { Context } from "koa";
+import { Log } from "../log/Log";
+import { IRouterContext } from "koa-router";
 
 export function simpleError(err) {
   var msg = err.message || "";
@@ -7,12 +8,14 @@ export function simpleError(err) {
   var err_msg = `${msg}==${stack}`
 }
 
-export async function errorHandler(ctx: Context, next: any) {
+export async function LogHandler(ctx: IRouterContext, next: any) {
   try {
+    Log.infoLog(`${ctx.request.url}`);
+    Log.infoLog(`${JSON.stringify((<any>ctx.request).body)}`);
     await next();
   }
   catch (err) {
-    // Log.errorLog(JSON.stringify(err.message || err.stack));
+    Log.errorLog(JSON.stringify(err.stack || err.message));
     // 未知异常状态，默认使用 500
     if (!err.status) err.status = 500;
     ctx.status = err.status;
@@ -34,7 +37,6 @@ export async function errorHandler(ctx: Context, next: any) {
         ctx.redirect(getUrl(ctx, err.status));
         break;
     }
-
     /**
     * 根据 Http 状态码，获取重定向页
     * param {number} status http状态码

@@ -1,5 +1,4 @@
-
-const path = require('path')
+const path = require('path');
 const { resolve } = path;
 const webpack = require('webpack')
 const merge = require('webpack-merge');

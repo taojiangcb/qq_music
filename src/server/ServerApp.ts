@@ -7,19 +7,38 @@ import serve from 'koa-static';
 
 import { config } from './config/Config';
 import { buildProviderModule } from './ioc/Ioc';
-import { errorHandler } from './middleware/ErrorHandler';
+import { LogHandler } from './middleware/ErrorHandler';
 
 import './controllers/IndexController';
 import './services/IndexServices';
 import { resolve } from 'path';
+import { Log } from './log/Log';
 
+//初始化日志
+Log.initConfig();
+
+/*** 当node 进程退出时候处理 */
+process.addListener("exit", (code: number) => {
+  Log.log("exit code" + code);
+});
+
+/*** 当node 进程崩溃的时候处理 */
+process.addListener("uncaughtException", (err: Error) => {
+  if (err.message) { Log.errorLog(err.message); }
+  if (err.stack) { Log.errorLog(err.stack); }
+})
+
+/*** 当node 进程退出时候处理 */
+process.addListener("exit", (code: number) => {
+  Log.errorLog("exit code " + code);
+});
 
 const container = new Container();
 container.load(buildProviderModule());
 
 const server = new InversifyKoaServer(container);
 server.setConfig(app => {
-  console.log(config.paths.static.slice(1));
+  Log.log(config.paths.static.slice(1));
   app.use(serve(resolve(config.paths.static.slice(1))));
   app.context.render = co.wrap(render({
     root: config.paths.view,
@@ -29,7 +48,7 @@ server.setConfig(app => {
     writeBody: false
   }))
 }).setErrorConfig(app => {
-  app.use(errorHandler)
+  app.use(LogHandler)
 })
 
 const app = server.build();

@@ -16,6 +16,7 @@ import { Helmet } from 'react-helmet';
 import { resolve } from 'path';
 import { promiseReadFile } from '../os/PromiseFile';
 import fs from 'fs';
+import { config } from '../config/Config';
 
 type contextProp = { css?: string }
 
@@ -24,16 +25,12 @@ type contextProp = { css?: string }
 export class IndexService implements IndexServer {
 
   constructor() { }
+  //html模板内容
   private htmltemp: string = "";
-
-
   render(store: Store, ctx: RouterContext, context: StaticRouterContext & contextProp) {
     //指定当前路由的路径和路由的穿透参数 
     //context 穿透参数 贯穿整个路由的组件
     //localtion 当前路由的路径
-    console.log(`--context--`);
-    console.log(ctx.request.path);
-    console.log(context);
     let content = renderToString(
       <Provider store={store} >
         <StaticRouter location={ctx.request.path} context={context} >
@@ -42,15 +39,10 @@ export class IndexService implements IndexServer {
       </Provider>
     );
 
-    console.log(content);
-    console.log(`--context end--`);
-
-
     if (!this.htmltemp) {
-      console.log(__dirname);
-      this.htmltemp = String(fs.readFileSync('bin/ssrindex.html'));
+      this.htmltemp = String(fs.readFileSync(config.paths.ssrTemp.slice(1)));
     }
-
+    
     const helmet = Helmet.renderStatic();
     let storeData = JSON.stringify(store.getState());
     let headContent = `
