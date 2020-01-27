@@ -4,10 +4,10 @@ import { inject } from "inversify";
 import { IRouterContext } from 'koa-router'
 
 import { matchRoutes } from 'react-router-config';
-import { ssrStore } from "../../store/Store";
 import { Routers } from "../../routers/Routers";
 import { StaticRouterContext } from "react-router";
 import { IndexServer } from '../interface/IndexService';
+import { ssrStore } from "../../redux/Store";
 
 @controller('/')
 @provideThrowable(TYPE.Controller, 'IndexController')

@@ -13,12 +13,12 @@ const { env } = require('../env/Env');
 
 const webpack_build_cilbase = merge(baseConf, {
   entry: {
-    app: path.resolve(__dirname, '../client/App.ts'),
+    app: path.resolve(__dirname, '../client/App.tsx'),
   },
 
   output: {
     path: resolve(__dirname, '../../bin'),
-    filename: "[name].[contenthash:8].js",
+    filename: "[name].[hash].js",
   },
 
   module: {
@@ -40,8 +40,8 @@ const webpack_build_cilbase = merge(baseConf, {
             loader: 'sass-resources-loader',
             options: {
               resources: [
-                resolve(__dirname, '../common/common.scss'),
-                resolve(__dirname, '../common/icon.scss'),
+                resolve(__dirname, '../assets/common.scss'),
+                resolve(__dirname, '../assets/icon.scss'),
               ]
             }
           }

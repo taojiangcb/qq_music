@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand');
 
 const env = argv.env || argv.mode;
-const ENV_FILE_PATH = path.resolve(__dirname, '../.env');
+const ENV_FILE_PATH = path.resolve(__dirname, './.env');
 
 let dotenvFiles = [
   `${ENV_FILE_PATH}.${env}.local`,
