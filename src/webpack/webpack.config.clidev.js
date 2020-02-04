@@ -33,7 +33,7 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
     },
 
 
-    // public:'./public',
+    // public:'assets',
     // colors: true, //终端中输出结果为彩色
     // historyApiFallback: true, //不跳转
     // inline: true, //实时刷新
@@ -66,7 +66,7 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
     // 热加载插件
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-
+    
      // app 模块
      new HtmlWebpackPlugin({
       template: resolve(__dirname, '../template/index.html'),
@@ -76,7 +76,7 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
 
     // 打开浏览器
     new OpenBrowserPlugin({
-      url: 'http://localhost:8080/ssrindex.html',
+      url: 'http://localhost:8080/index.html',
       browser: "google chrome",
     }),
 
@@ -99,7 +99,6 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
     }),
   ]
 })
-
 
 module.exports = webpack_build_cil_dev;
 

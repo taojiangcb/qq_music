@@ -1,9 +1,27 @@
 import styled from "styled-px2vw";
 
+export const SliderWapper = styled.div`
+  overflow:hidden;
+  min-height:1px;
+  position:relative;
+  
+`
+
+export const Pagination = styled.div`
+  position:absolute;
+  color:#FFF;
+`
+
 export const SliderGroup = styled.div`
   overflow:hidden;
   white-space:nowrap;
   position:relative;
+
+  &::after {
+    clear:both;
+    content:"";
+    display:block;
+  }
 `
 
 export const SliderImageItem = styled.div`

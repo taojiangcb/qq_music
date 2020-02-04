@@ -61,7 +61,7 @@ const webpack_build_cilbase = merge(baseConf, {
         exclude: /node_modules/,
         options: {
           limit: 5000,
-          name: 'static/media/[name].[hash:8].[ext]',
+          name: '[name].[hash:8].[ext]',
         },
       } // 限制大小小于5k      
     ]

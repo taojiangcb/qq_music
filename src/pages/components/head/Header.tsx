@@ -4,12 +4,13 @@ import { iProps, iState } from '../../../interfaces/iComponentProps';
 import { AppStyled, NormalTheme } from '../../../assets/AppCss';
 import { HeaderWapper, NavTopWapper, NavItem, HeaderContianer } from './HeaderStyled';
 import { RouterKeys } from '../../../routers/Routers';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 interface initState {
   curKey?: string;
 }
 
-class Header extends Component<iProps, iState & initState> {
+class Header extends Component<iProps & RouteComponentProps, iState & initState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,6 +20,7 @@ class Header extends Component<iProps, iState & initState> {
 
   private navClick = (val) => {
     this.setState({ curKey: val });
+    this.props.history.push(val);
     console.log('navClick...' + val);
   }
 
@@ -31,7 +33,7 @@ class Header extends Component<iProps, iState & initState> {
     }
 
     return (
-      <HeaderContianer>
+      <HeaderContianer id={`navHeader`}>
         <HeaderWapper theme={NormalTheme}>
           <span className='img'></span><span>TAO MUSIC</span>
         </HeaderWapper>
@@ -43,7 +45,7 @@ class Header extends Component<iProps, iState & initState> {
       </HeaderContianer>
     )
   }
-
 }
 
-export { Header }
+const withRotersHead = withRouter(Header)
+export { withRotersHead as Header }

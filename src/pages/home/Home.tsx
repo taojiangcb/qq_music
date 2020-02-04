@@ -1,22 +1,51 @@
-import React from 'react'
-import { Store } from 'redux'
+import React, { Fragment } from 'react'
+import { Store, Dispatch } from 'redux'
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 import { iProps } from '../../interfaces/iComponentProps';
 import { Header } from '../components/head/Header';
 import ContainerComponent from '../container/Container';
+import styled from 'styled-components';
+import PlayerBar from '../components/player/PlayerBar';
+import { connect } from 'react-redux';
+import { Song } from '../../logicFunction/Song';
 
-const Home = (props: iProps & RouteConfigComponentProps) => {
+const HomeWapper = styled.div`
+  position:relative;
+`
+
+interface iHomeProp {
+  curSong?: Song;
+}
+
+const Home = (props: iHomeProp & RouteConfigComponentProps) => {
+
+  const render_play_bar = (
+    <PlayerBar></PlayerBar>
+  )
+
+  let { curSong } = props;
+
   return (
-    <div>
+    <HomeWapper id="homeWapper">
       <Header />
-     <ContainerComponent>
+      <ContainerComponent>
         {renderRoutes(props.route.routes)}
-     </ContainerComponent>
-    </div>
+      </ContainerComponent>
+      {/* {curSong && render_play_bar} */}
+      {render_play_bar}
+    </HomeWapper>
   )
 }
+Home.InitPropsData = (store: Store) => { }
 
-Home.InitPropsData = (store: Store) => {
+const mapStateToProps = (state: any) => {
+  return {
+    curSong: state.reducerPlay.curSong,
+  }
 }
 
-export { Home }
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

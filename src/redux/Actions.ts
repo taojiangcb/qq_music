@@ -13,7 +13,7 @@ function receiveAction(prevState: any, action: AnyAction) {
   return null;
 }
 
-export const normalReducer = (state: any, action: AnyAction) => {
+const normalReducer = (state: any, action: AnyAction) => {
   let newState = action.receiver ? receiveAction(state, action) : null;
   let resultState = newState ? newState : state;
   return resultState;
