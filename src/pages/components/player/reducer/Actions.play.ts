@@ -15,3 +15,22 @@ export function action_play_Song(song: Song): AnyAction {
     }
   }
 }
+
+export function action_featch_musiclist(list: Song[]): AnyAction {
+  return {
+    type: ACTIONS.ACTION_FEATCH_TOP_MUSICLIST,
+    data: list,
+    receiver(state, action) {
+      // let normalsizes = action.data.map(item => {
+      //   if (item.data.songid && item.data.albummid) {
+      //     return createSong(item.data);
+      //   }
+      // });
+
+      return {
+        ...state,
+        songList: action.data
+      }
+    }
+  }
+}

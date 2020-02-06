@@ -13,9 +13,14 @@ interface initState {
 class Header extends Component<iProps & RouteComponentProps, iState & initState> {
   constructor(props) {
     super(props);
+    console.log(props);
+    let { location } = props;
+    console.log(location);
+    let key = location ? String(location.pathname).slice(1) : "";
     this.state = {
-      curKey: ""
+      curKey: key ? key : RouterKeys.recommend,
     }
+    console.log(this.state);
   }
 
   private navClick = (val) => {
@@ -27,7 +32,6 @@ class Header extends Component<iProps & RouteComponentProps, iState & initState>
   render() {
 
     let { curKey } = this.state;
-
     const chrooseItem = (k: string) => {
       return curKey === k ? 'selected' : '';
     }
@@ -40,7 +44,7 @@ class Header extends Component<iProps & RouteComponentProps, iState & initState>
         <NavTopWapper>
           <NavItem className={chrooseItem(RouterKeys.recommend)} onClick={e => { this.navClick(RouterKeys.recommend) }}><span>推荐</span></NavItem>
           <NavItem className={chrooseItem(RouterKeys.rank)} onClick={e => { this.navClick(RouterKeys.rank) }} ><span>排行</span></NavItem>
-          <NavItem className={chrooseItem(RouterKeys.singer)} onClick={e => { this.navClick(RouterKeys.singer) }}><span>歌手</span></NavItem>
+          {/* <NavItem className={chrooseItem(RouterKeys.singer)} onClick={e => { this.navClick(RouterKeys.singer) }}><span>歌手</span></NavItem> */}
         </NavTopWapper>
       </HeaderContianer>
     )

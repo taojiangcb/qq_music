@@ -35,14 +35,13 @@ export const HeaderWapper = styled.div`
 export const NavTopWapper = styled.div`
   display:flex;
   flex-direction:row;
-  flex:1 1 auto;
 `
 export const NavItem = styled.div`
   text-align:center;
   font-size:${props => props.theme.$font$size$small};
   height:40px;
   line-height:40px;
-  width:300px;
+  width:100%;
   margin-top:40px;
   
   > span { }

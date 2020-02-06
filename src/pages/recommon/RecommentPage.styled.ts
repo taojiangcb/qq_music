@@ -1,6 +1,8 @@
 import styled from "styled-px2vw";
 
 export const RecommentWapper = styled.div`
+  width:100%;
+  min-height:1px;
 `
 
 export const RecommentTitle = styled.div`

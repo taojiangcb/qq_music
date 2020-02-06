@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component, Fragment } from 'react';
+import React, { useState, useEffect, Component, Fragment, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom';
@@ -7,9 +7,13 @@ import { Model } from '../../modules/DataStruct';
 import { initLoadData } from '../../redux/Store';
 import { dispatch_featch_toplist } from './reducer/Actions.Rank';
 import { RankPageItem, RankPageWapper, RankPageContent } from './RankPage.styled';
-import { RankMusicWapper } from './RankMusic.styled';
-import RankMusic from './RankMusic';
-import { GlobalStyle } from '../../assets/Reset';
+import MusicList from '../musicList/MusicList';
+import { getMusicList } from '../../api/Rank';
+import { createFetch } from '../../react_extends/SuspenseExtends';
+import { createSong } from '../../logicFunction/song';
+import { PageLoading } from '../components/loading/PageLoading';
+import { Song } from '../../logicFunction/Song';
+import { ErrorBoundary, prefetch, useFetch } from 'react-hooks-fetch';
 
 interface iPorps {
   topList?: Model.TopInfo[];
@@ -17,6 +21,7 @@ interface iPorps {
 
 interface iState {
   topInfo?: Model.TopInfo;
+  songList?: Song[];
 }
 
 class RankPage extends Component<iPorps, iState> {
@@ -24,15 +29,25 @@ class RankPage extends Component<iPorps, iState> {
     super(props);
     this.state = {
       topInfo: null,
+      songList: null,
     }
   }
 
   private itemClick = (data: Model.TopInfo) => {
-    this.setState({ topInfo: data });
-    console.log(data);
+    this.setState({ topInfo: data, songList: null });
+    getMusicList(data.id)
+      .then(res => {
+        let songList = res.songlist.map(item => {
+          if (item.data.songid && item.data.albummid) {
+            return createSong(item.data);
+          }
+        })
+        songList = songList.filter(item => (item ? true : false))
+        this.setState({ songList });
+      })
   }
 
-  private musicOnBack = () => {
+  private musicOnBack = (e) => {
     this.setState({ topInfo: null })
     console.log('backhandler....');
   }
@@ -61,12 +76,17 @@ class RankPage extends Component<iPorps, iState> {
     )
 
     const renderSingList = () => {
-      let { topInfo } = this.state;
-      return (
-        topInfo
-          ? <RankMusic topInfo={topInfo} onBack={this.musicOnBack}></RankMusic>
-          : ""
-      )
+      let { topInfo, songList } = this.state;
+      let renderLoad = topInfo && !songList;
+      let rendNull = !topInfo;
+
+      let res: any = "";
+      if (rendNull) res = "";
+      else if (renderLoad) res = <PageLoading></PageLoading>
+      else {
+        res = <MusicList showRank={true} onBack={this.musicOnBack} title={topInfo.topTitle} songList={songList}></MusicList>
+      }
+      return res;
     }
 
     return (

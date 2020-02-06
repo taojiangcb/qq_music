@@ -16,6 +16,17 @@ const webpack_build_dev = merge(baseConf, {
     path: appPath.binDir,
     filename: "ssr-svr.js",
   },
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'awesome-typescript-loader'
+      },
+    ]
+  },
+  
   externals: [nodeExternals()]
 })
 

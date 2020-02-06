@@ -24,6 +24,12 @@ const webpack_build_cilbase = merge(baseConf, {
   module: {
     rules: [
       {
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules/,
+        include: appPath.root,
+        loader: 'awesome-typescript-loader'
+      },
+      {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
         use: [

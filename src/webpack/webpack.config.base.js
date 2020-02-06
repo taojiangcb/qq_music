@@ -53,12 +53,6 @@ module.exports = {
           fix: true // 是否自动修复，如果是，每次保存时会自动修复可以修复的部分
         }
       },
-
-      {
-        test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'awesome-typescript-loader'
-      },
     ]
   },
 

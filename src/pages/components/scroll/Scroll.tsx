@@ -66,7 +66,7 @@ export class Scroll extends Component<iPorps, iState> {
         mouseWheel: false,
         zoom: false,
         preventDefault: false,
-        scrollbars: true,
+        scrollbars: false,
         scrollX: false,
         scrollY: true,
         disableMouse: false,
@@ -77,6 +77,7 @@ export class Scroll extends Component<iPorps, iState> {
       })
 
       if (window) {
+        this.updateScroll();
         window.addEventListener('resize', () => {
           this.updateScroll();
         });

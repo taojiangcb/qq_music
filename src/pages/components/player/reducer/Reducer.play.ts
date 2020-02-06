@@ -4,12 +4,12 @@ import { defaultReducerHandler } from "../../../../redux/Actions";
 import { ACTIONS } from "../../../../redux/ActionConst";
 
 interface iDefaultState {
-  signList: Song[];
+  songList: Song[];
   curSong: Song;
 }
 
 let defaultState: iDefaultState = {
-  signList: [],
+  songList: [],
   curSong: null
 }
 

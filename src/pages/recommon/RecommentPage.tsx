@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { iProps, iState } from "../../interfaces/iComponentProps";
 import { connect } from 'react-redux';
 import { AnyAction, Dispatch } from "redux";
 import { RecommentWapper, RecommentTitle, RecommentItem } from "./RecommentPage.styled";
@@ -10,19 +9,47 @@ import { SliderImageItem } from "../components/slideImage/SliderImage.styled";
 import { Model } from "../../modules/DataStruct";
 import { ScrollWapper } from "../components/scroll/Scroll.styled";
 import { Scroll } from "../components/scroll/Scroll";
+import { Song, createSong } from '../../logicFunction/Song';
+import { PageLoading } from "../components/loading/PageLoading";
+import MusicList from "../musicList/MusicList";
+import { getSongList } from "../../api/Recommend";
 
 interface initProps {
   recomment?: any;
   disc_list?: Model.Disc[];
 }
 
+interface iState {
+  disc?: Model.Disc;
+  songList?: Song[];
+}
+
 class Recomment extends Component<initProps, iState> {
   constructor(props) {
     super(props);
+    this.state = {
+      disc: null,
+      songList: null
+    }
   }
 
   private itemClick = (data: Model.Disc) => {
-    console.log(data);
+    this.setState({ disc: data, songList: null });
+    getSongList(data.dissid)
+      .then(res => {
+        let songList = res.data.data['0'].songlist.map(item => {
+          if (item.songid && item.albummid) {
+            return createSong(item);
+          }
+        })
+        songList = songList.filter(item => (item ? true : false))
+        this.setState({ songList });
+      })
+  }
+
+  private musicOnBack = (e) => {
+    this.setState({ disc: null })
+    console.log('backhandler....');
   }
 
   render() {
@@ -56,6 +83,8 @@ class Recomment extends Component<initProps, iState> {
       </SliderComponent>
     )
 
+
+
     const renderRecommentItems = (
       <Fragment>
         {
@@ -74,6 +103,20 @@ class Recomment extends Component<initProps, iState> {
       </Fragment>
     )
 
+    const renderSingList = () => {
+      let { disc, songList } = this.state;
+      let renderLoad = disc && !songList;
+      let rendNull = !disc;
+
+      let res: any = "";
+      if (rendNull) res = "";
+      else if (renderLoad) res = <PageLoading></PageLoading>
+      else {
+        res = <MusicList showRank={false} onBack={this.musicOnBack} title={disc.dissname} songList={songList}></MusicList>
+      }
+      return res;
+    }
+
     return (
       <RecommentWapper>
         <Scroll>
@@ -81,7 +124,7 @@ class Recomment extends Component<initProps, iState> {
           <RecommentTitle> 热门歌单推荐 </RecommentTitle>
           {renderRecommentItems}
         </Scroll>
-
+        {renderSingList()}
       </RecommentWapper >
     )
   }

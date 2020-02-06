@@ -1,5 +1,6 @@
 import styled from "styled-px2vw";
 import React from "react";
+import { iPlayProps } from "./PlayerPage";
 
 const ProcessWapper = styled.div`
   position: relative;
@@ -30,21 +31,21 @@ const ProcessWapper = styled.div`
   }
 `
 
-interface iProps {
-  percent?: number;
-  isPlay?: boolean;
-  onClick?: Function;
-}
+// interface iProps {
+//   percent?: number;
+//   isPlay?: boolean;
+//   pauseClick?: Function;
+// }
 
-export const PlayerProcess = (props: iProps) => {
+export const PlayerProcess = (props: iPlayProps) => {
   let percent = props.percent;
   let dashArray = Math.PI * 100 / 2.2;
   let dashOffset = (1 - percent) * dashArray;
   let isPlay = props.isPlay;
   let cssPlus = isPlay ? 'iconPlaybofang' : 'iconPausezanting';
-  console.log('isPlay' + isPlay);
+
   return (
-    <div style={{ display: 'inline-block' }} onClick={e => { props.onClick && props.onClick(e) }}>
+    <div style={{ display: 'inline-block' }} onClick={e => { props.pauseHandler && props.pauseHandler(e) }}>
       <ProcessWapper >
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
           <circle stroke="rgba(255, 205, 49, 0.5)" strokeWidth="2" fill="transparent" />

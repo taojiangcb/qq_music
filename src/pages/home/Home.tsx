@@ -13,35 +13,25 @@ const HomeWapper = styled.div`
   position:relative;
 `
 
-interface iHomeProp {
-  curSong?: Song;
-}
+interface iHomeProp { curSong?: Song; }
 
 const Home = (props: iHomeProp & RouteConfigComponentProps) => {
-
-  const render_play_bar = (
-    <PlayerBar></PlayerBar>
-  )
-
   let { curSong } = props;
-
+  const render_play_bar = (<PlayerBar></PlayerBar>)
   return (
     <HomeWapper id="homeWapper">
       <Header />
       <ContainerComponent>
         {renderRoutes(props.route.routes)}
       </ContainerComponent>
-      {/* {curSong && render_play_bar} */}
       {render_play_bar}
     </HomeWapper>
   )
 }
-Home.InitPropsData = (store: Store) => { }
 
+Home.InitPropsData = (store: Store) => { }
 const mapStateToProps = (state: any) => {
-  return {
-    curSong: state.reducerPlay.curSong,
-  }
+  return { curSong: state.reducerPlay.curSong }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
