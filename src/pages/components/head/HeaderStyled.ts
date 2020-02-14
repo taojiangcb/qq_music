@@ -1,8 +1,7 @@
 
 import styled from 'styled-px2vw';
 const logo3x = require('./img/logo@3x.png');
-const logo2x = require( './img/logo@2x.png');
-
+const logo2x = require('./img/logo@2x.png');
 
 
 export const HeaderContianer = styled.div`
@@ -24,7 +23,7 @@ export const HeaderWapper = styled.div`
   padding-top:20px;
   .img {
     display:inline-block;
-    background-image:url(${logo2x}) ;
+    /* background-image:url(${logo2x}) ; */
     background-size:cover;
     width:44px;
     height:44px;
@@ -35,6 +34,7 @@ export const HeaderWapper = styled.div`
 export const NavTopWapper = styled.div`
   display:flex;
   flex-direction:row;
+  margin-bottom:10px;
 `
 export const NavItem = styled.div`
   text-align:center;

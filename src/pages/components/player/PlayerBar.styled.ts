@@ -19,6 +19,7 @@ export const PlayerBarWaraper = styled.div.attrs((props: any) => ({ img: props.i
   display:flex;
   flex-direction:row;
   justify-items:center;
+  z-index:10;
   .c1 {
     flex:auto auto 140px;
     padding: 0 20px;
@@ -27,15 +28,16 @@ export const PlayerBarWaraper = styled.div.attrs((props: any) => ({ img: props.i
     flex:1 2 auto;
     line-height:40px;
     padding-top:10px;
-    font-size:16px;
+    font-size:24px;
     h2 {
+      padding-top:10px;
       color:#FFF;
       width:300px;
     }
     p {
       color:hsla(0,0%,100%,.3);
       width:300px;
-      padding-top:10px;
+      /* padding-top:10px; */
     }
   }
   .c3 {

@@ -43,7 +43,9 @@ class RankPage extends Component<iPorps, iState> {
           }
         })
         songList = songList.filter(item => (item ? true : false))
-        this.setState({ songList });
+        setTimeout(()=> {
+          this.setState({ songList });
+        },0);
       })
   }
 

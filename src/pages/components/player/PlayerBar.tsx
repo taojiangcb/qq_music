@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, Component, RefObject, Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -12,9 +11,10 @@ const QMPlayer = Object(window).QMplayer;
 
 import { PlayerProcess } from './CircleProgress';
 import PlayerPage, { iPlayProps } from './PlayerPage';
-import { action_play_Song } from './reducer/Actions.play';
+import { action_play_Song, action_play_model, action_play_showPage, action_featch_musiclist } from './reducer/Actions.play';
+import { clientStore } from '../../../redux/Store';
 
-const enum EType {
+enum EType {
   play = 'play',                //事件在暂停时触发
   error = 'error',              //事件在发生错误时触发
   pause = 'pause',              //事件在关闭弹窗时触发
@@ -28,26 +28,29 @@ interface iPorps {
   curSong?: Song;
   songList?: Song[];
   play_song?: (song: Song) => void;
+  mode?: PLAY_MODE;
+  change_mode?: (mode: PLAY_MODE) => void;
+  showPageFlag?: boolean;
+  show_page?: (show: boolean) => void;
 }
 
 interface iState {
-  mode?: PLAY_MODE.LOOP_LIST;       //播放模式
+  // mode?: PLAY_MODE.LOOP_LIST;       //播放模式
   isPlay?: boolean;                 //是否player
   percent?: number;                 //百分比
-  showPageFlag?: boolean;           //显示page
 }
 
-class PlayerBar extends Component<iPorps, iState> {
+class PlayerBar extends PureComponent<iPorps, iState> {
   private player;
   constructor(props: iPorps) {
     super(props);
+
     this.player = new QMPlayer();
     this.player.loop = false;
+
     this.state = {
-      mode: PLAY_MODE.LOOP_LIST,
       isPlay: true,
       percent: 0,
-      showPageFlag: true
     }
   }
 
@@ -57,8 +60,8 @@ class PlayerBar extends Component<iPorps, iState> {
   }
 
   render() {
-    let { curSong } = this.props;
-    let { isPlay, showPageFlag, mode } = this.state;
+    let { curSong, mode, showPageFlag } = this.props;
+    let { isPlay } = this.state;
     let img = curSong ? curSong.image : '';
     let songName = curSong ? curSong.name : '';
     let percent = this.state.percent || 0;
@@ -93,14 +96,16 @@ class PlayerBar extends Component<iPorps, iState> {
         : ""
     )
 
+    const renderPlayPage = (
+      showPageFlag && curSong
+        ? <PlayerPage {...progressProps}></PlayerPage>
+        : ""
+    )
+
     return (
       <Fragment>
         {renderBar}
-        {
-          showPageFlag && curSong
-            ? <PlayerPage {...progressProps}></PlayerPage>
-            : ""
-        }
+        {renderPlayPage}
       </Fragment >
     )
   }
@@ -119,14 +124,14 @@ class PlayerBar extends Component<iPorps, iState> {
 
   private modeChange = (e) => {
     console.log('modeChnge');
-    let { mode } = this.state;
+    let { mode, change_mode } = this.props;
     if (mode == Number(PLAY_MODE.RANDOM)) {
       mode = PLAY_MODE.LOOP_LIST;
     }
     else {
       mode++;
     }
-    this.setState({ mode })
+    change_mode && change_mode(mode);
   }
 
   private onTimeupdate = (e) => {
@@ -143,7 +148,8 @@ class PlayerBar extends Component<iPorps, iState> {
   private nextPlay = () => {
     console.log('nextPlay');
     let { curSong, songList, play_song } = this.props;
-    let { mode } = this.state;
+    if(songList.length === 0) return;
+    let { mode } = this.props;
     if (mode === Number(PLAY_MODE.LOOP_LIST) || mode === Number(PLAY_MODE.LOOP_ONCE)) {
       let idx = songList.indexOf(curSong);
       if (idx != -1) {
@@ -151,7 +157,10 @@ class PlayerBar extends Component<iPorps, iState> {
           play_song && play_song(songList[0]);
         }
         else {
-          play_song && play_song(songList[idx + 1]);
+          let n = idx + 1;
+          if (n < songList.length) {
+            play_song && play_song(songList[idx + 1]);
+          }
         }
       }
       else {
@@ -167,7 +176,7 @@ class PlayerBar extends Component<iPorps, iState> {
   private prevPlay = () => {
     console.log('prevPlay');
     let { curSong, songList, play_song } = this.props;
-    let { mode } = this.state;
+    let { mode } = this.props;
     if (mode === Number(PLAY_MODE.LOOP_LIST) || mode === Number(PLAY_MODE.LOOP_ONCE)) {
       let idx = songList.indexOf(curSong);
       let nid: string = '';
@@ -191,18 +200,33 @@ class PlayerBar extends Component<iPorps, iState> {
 
   private onPlayerError = (e) => {
     console.log('playError');
+    let { songList, curSong } = this.props;
+    let nList = songList.concat();
     this.nextPlay();
+    for (let i = 0; i < nList.length;) {
+      if (nList[i].mid === curSong.mid) {
+        nList.splice(i, 1);
+        break;
+      }
+      else {
+        i++;
+      }
+    }
+    let store = clientStore();
+    if (store) {
+      store.dispatch(action_featch_musiclist(nList))
+    }
   }
 
   private hidePage = e => {
-    this.setState({ showPageFlag: false }, () => {
+    this.props.show_page(false);
+    setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
-    })
-    console.log('hidePage');
+    }, 0)
   }
 
   private showPage = e => {
-    this.setState({ showPageFlag: true });
+    this.props.show_page(true);
     console.log('hidePage');
   }
 
@@ -244,10 +268,13 @@ class PlayerBar extends Component<iPorps, iState> {
     }
   }
 }
+
 const mapStateToProps = (state: any) => {
   return {
     curSong: state.reducerPlay.curSong,
     songList: state.reducerPlay.songList,
+    mode: state.reducerPlay.mode,
+    showPageFlag: state.reducerPlay.showPageFlag,
   }
 }
 
@@ -255,6 +282,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     play_song(song: Song) {
       dispatch(action_play_Song(song));
+    },
+    change_mode(mode: PLAY_MODE) {
+      dispatch(action_play_model(mode));
+    },
+    show_page(show) {
+      dispatch(action_play_showPage(show));
     }
   }
 }

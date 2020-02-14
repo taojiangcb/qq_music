@@ -9,6 +9,7 @@ const appPath = require('../env/Paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const { env } = require('../env/Env');
+const OS = require('os');
 
 
 const webpack_build_cilbase = merge(baseConf, {
@@ -27,7 +28,17 @@ const webpack_build_cilbase = merge(baseConf, {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         include: appPath.root,
-        loader: 'awesome-typescript-loader'
+        use:[
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: OS.cpus.length - 1,
+            }
+          },
+          'cache-loader',//使用cacheDirectory，可以缓存编译结果，避免多次重复编译；
+          'babel-loader'
+          // 'awesome-typescript-loader'
+        ]
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -77,8 +88,6 @@ const webpack_build_cilbase = merge(baseConf, {
     // app 模块
     new HtmlWebpackPlugin({
       template: resolve(__dirname, '../template/index.html'),
-      filename: 'ssrindex.html',
-      // chunks: ['common', 'app']
     }),
 
     // 插入环境变量   // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

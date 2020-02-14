@@ -35,21 +35,21 @@ export const RankPageItem = styled.div`
     height:160px;
     background-color:#333;
     color:hsla(0,0%,100%,.3);
-    font-size:12px;
     display:block;
-    padding:0 20px;
+    padding:0 30px;
     margin:auto 0;
     
     >li {
       font-weight:400;
       vertical-align:baseline;
-      font-size:12px;
       width:400px;
       > p {
         white-space: nowrap;  
         text-overflow:ellipsis;
+        padding-top:3px;
         overflow:hidden;
         line-height:50px;
+        font-size:30px;
       }
     }
   }

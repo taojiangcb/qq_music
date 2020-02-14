@@ -4,6 +4,8 @@ import IScroll from 'iscroll/build/iscroll-probe';
 
 interface iPorps {
   calcOffH?: Function,
+  scrollToBottom?: Function;
+  scrollToTop?: Function;
 }
 
 interface iState { }
@@ -59,6 +61,7 @@ export class Scroll extends Component<iPorps, iState> {
   }
 
   private initScroll = () => {
+    let { scrollToTop, scrollToBottom } = this.props;
     if (!this.iScroll) {
       this.iScroll = new IScroll(this.scrollRef.current, {
         snap: false,
@@ -76,12 +79,27 @@ export class Scroll extends Component<iPorps, iState> {
         tap: true,
       })
 
-      if (window) {
+
+      this.updateScroll();
+      window.addEventListener('resize',()=> {
         this.updateScroll();
-        window.addEventListener('resize', () => {
-          this.updateScroll();
-        });
+      });
+
+      if (scrollToBottom || scrollToTop) {
+        this.iScroll.on('scrollEnd', this.scrollEndHandler);
       }
+    }
+  }
+
+  private scrollEndHandler = () => {
+    let { scrollToTop, scrollToBottom } = this.props;
+    if (this.iScroll.y - this.iScroll.maxScrollY === 0) {
+      //滚到底部触发
+      scrollToBottom && scrollToBottom();
+    }
+    else if (this.iScroll.y > 0) {
+      //滚到顶部
+      scrollToTop && scrollToTop();
     }
   }
 
@@ -95,6 +113,18 @@ export class Scroll extends Component<iPorps, iState> {
         this.scrollRef.current.style.height = h + 'px';
       }
     }
+  }
+
+  componentWillUnmount = () => {
+    if (this.iScroll) {
+      let { scrollToTop, scrollToBottom } = this.props;
+      if (scrollToBottom || scrollToTop) {
+        this.iScroll.off('scrollEnd', this.scrollEndHandler);
+      }
+    }
+    // if (window) {
+    //   window.removeEventListener('resize', this.updateScroll);
+    // }
   }
 
   componentDidMount() { this.initScroll(); }

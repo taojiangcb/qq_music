@@ -5,12 +5,14 @@ import { Song } from '../../../logicFunction/song';
 import { PlayerPaperWapper, PlayerTop, PlayerCDWapper } from './PlayerPage.styled';
 import { PLAY_MODE } from '../../../logicFunction/Constant';
 import { PlayerButtonGroup } from './PlayerButtonGroup';
+import { animateCSS } from '../../animateCSS/Animatecss';
+
 
 export interface iPlayProps {
   curSong?: Song,
   isPlay?: boolean;
   percent?: number;
-  mode?: PLAY_MODE.LOOP_LIST;       //播放模式
+  mode?: PLAY_MODE;       //播放模式
   pauseHandler?: Function;
   nextHandler?: Function;
   prevHandler?: Function;
@@ -37,22 +39,45 @@ class PlayerPage extends Component<iPlayProps, iState> {
 
     return (
       <PlayerPaperWapper>
-        <div className={'bg'}>
+        <div className={'animation-element bg'}>
           <img src={img} />
         </div>
-        <PlayerTop>
-          <i onClick={e => { hidePage && hidePage(e) }} className={'iconfont iconRectangleCopy'}></i>
+        <PlayerTop className='player-top-wapper animation-element'>
+          <i onClick={e => { this.backHandler(e) }} className={'iconfont iconRectangleCopy'}></i>
           <h1> {songName} </h1>
           <p> {singer} </p>
         </PlayerTop>
         <PlayerCDWapper ref={this.cdRef}>
-          <div className={"CDWapper"}>
+          <div className={"CDWapper animation-element"}>
             <img src={img} className={isPlay ? 'rotation' : ""}></img>
           </div>
         </PlayerCDWapper>
         <PlayerButtonGroup {...this.props} />
       </PlayerPaperWapper>
     )
+  }
+
+  private backHandler = (e) => {
+    let { hidePage } = this.props;
+    this.fadeOut(hidePage);
+  }
+
+  componentDidMount() {
+    this.fadeIn();
+  }
+
+  private fadeIn = () => {
+    animateCSS('.bg', 'fadeIn');
+    animateCSS('.player-top-wapper', 'fadeInDown');
+    animateCSS('.CDWapper', 'zoomIn');
+    animateCSS('.player-btn-group-wapper', 'fadeInUp');
+  }
+
+  private fadeOut = (cb) => {
+    animateCSS('.bg', 'fadeOut', cb);
+    animateCSS('.player-top-wapper', 'fadeOutUp');
+    animateCSS('.CDWapper', 'zoomOut');
+    animateCSS('.player-btn-group-wapper', 'fadeOutDown');
   }
 }
 

@@ -1,5 +1,6 @@
 
 import { createGlobalStyle } from 'styled-px2vw'
+import { isMobile, isPC } from '../es/Browser';
 
 const AppStyled = createGlobalStyle`
 @font-face {
@@ -19,7 +20,7 @@ body, html {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   background: #222;
-  color: '#fff';
+  color: '#222';
 }
 
 .fix_clear_float {
@@ -46,7 +47,7 @@ body, html {
 `
 
 const NormalTheme = {
-
+  
   // 颜色定义规
   $color$background: "#222",
   $color$background$d: 'rgba(0, 0, 0, 0.3)',
@@ -62,12 +63,12 @@ const NormalTheme = {
   $color$text$ll: 'rgba(255, 255, 255, 0.8)',
 
   //字体定义规范
-  $font$size$small$s: '10px',
-  $font$size$small: '12px',
-  $font$size$medium: '14px',
-  $font$size$medium$x: '16px',
-  $font$size$large: '18px',
-  $font$size$large$x: '22px'
+  $font$size$small$s: '10pt',
+  $font$size$small: '12pt',
+  $font$size$medium: '14pt',
+  $font$size$medium$x: '16pt',
+  $font$size$large: '18pt',
+  $font$size$large$x: '22pt'
 }
 
 export { AppStyled, NormalTheme }

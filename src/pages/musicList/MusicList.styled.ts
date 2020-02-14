@@ -1,12 +1,19 @@
 import styled from "styled-components";
 
-export const RankMusicWapper = styled.div`
-  position:absolute;
+export const MusicListWapper = styled.div`
+  position:fixed;
   width:100%;
   height:100%;
   left:0;
   top:0;
   background-color:#333;
+  z-index:0;
+  &.animation-element{
+    animation-duration:0.5s;
+    animation-timing-function:ease-out;
+    /* animation-delay:s;  */
+    /* animation-iteration-count:infinite; */
+  }
 `
 
 export const MusicBanner = styled.div.attrs(props => ({

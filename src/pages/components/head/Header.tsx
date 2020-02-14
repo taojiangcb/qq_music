@@ -39,11 +39,13 @@ class Header extends Component<iProps & RouteComponentProps, iState & initState>
     return (
       <HeaderContianer id={`navHeader`}>
         <HeaderWapper theme={NormalTheme}>
-          <span className='img'></span><span>TAO MUSIC</span>
+          {/* <span className='img'></span> */}
+          <span>TAO MUSIC</span>
         </HeaderWapper>
         <NavTopWapper>
           <NavItem className={chrooseItem(RouterKeys.recommend)} onClick={e => { this.navClick(RouterKeys.recommend) }}><span>推荐</span></NavItem>
           <NavItem className={chrooseItem(RouterKeys.rank)} onClick={e => { this.navClick(RouterKeys.rank) }} ><span>排行</span></NavItem>
+          <NavItem className={chrooseItem(RouterKeys.search)} onClick={e => { this.navClick(RouterKeys.search) }} ><span>搜索</span></NavItem>
           {/* <NavItem className={chrooseItem(RouterKeys.singer)} onClick={e => { this.navClick(RouterKeys.singer) }}><span>歌手</span></NavItem> */}
         </NavTopWapper>
       </HeaderContianer>

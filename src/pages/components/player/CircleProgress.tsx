@@ -4,29 +4,37 @@ import { iPlayProps } from "./PlayerPage";
 
 const ProcessWapper = styled.div`
   position: relative;
-  width:90px;
+  width:100px;
   height:120px;
   display:inline-block;
   vertical-align:middle;
-  transform:scale(0.9);
+  /* transform:scale(0.9); */
   > svg {
-    width:90px;
-    height:120px;
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
     > circle {
       cx:50%;
       cy:50%;
-      r:40px;
-      /* transform: scale(0.9) rotate(-90deg) */
+      r:35px;
+      strokeWidth:4px;
     }
   }
 
-  > i {
-      font-size:80px;
+  > div {
+      font-size:60px;
       color:${props => props.theme.$color$theme};
       position:absolute;
-      left:50%;
-      top:1px;
-      margin-left:-40px;
+      left:0px;
+      top:0px;
+      width:100%;
+      height:100%;
+      text-align:center;
+      vertical-align:middle;
+      /* margin-left:-44px;
+      margin-top:-60px; */
       /* margin-top:-40px; */
   }
 `
@@ -45,14 +53,12 @@ export const PlayerProcess = (props: iPlayProps) => {
   let cssPlus = isPlay ? 'iconPlaybofang' : 'iconPausezanting';
 
   return (
-    <div style={{ display: 'inline-block' }} onClick={e => { props.pauseHandler && props.pauseHandler(e) }}>
-      <ProcessWapper >
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-          <circle stroke="rgba(255, 205, 49, 0.5)" strokeWidth="2" fill="transparent" />
-          <circle stroke="#fcd32d" strokeWidth="2" strokeDasharray={dashArray} strokeDashoffset={dashOffset} fill="transparent" />
-        </svg>
-        <i className={`iconfont ${cssPlus}`}></i>
-      </ProcessWapper>
-    </div >
+    <ProcessWapper onClick={e => { props.pauseHandler && props.pauseHandler(e) }} >
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <circle stroke="rgba(255, 205, 49, 0.5)" fill="transparent" />
+        <circle stroke="#fcd32d"  strokeDasharray={dashArray} strokeDashoffset={dashOffset} fill="transparent" />
+      </svg>
+      <div className={`iconfont ${cssPlus}`}></div>
+    </ProcessWapper>
   )
 }

@@ -9,6 +9,7 @@ const PageLoadWapper = styled.div`
   background-color:#000;
 
   z-index:200;
+  opacity:0.5;
 
   left:0;
   top:0;

@@ -14,12 +14,24 @@ export const PlayerPaperWapper = styled.div`
   position:fixed;
   left:0;
   top:0;
+
+  
+  
+
   .bg {
     width:100%;
     height:100%;
     position:absolute;
     z-index:-1;
     background-color:#000;
+
+    &.animation-element{
+    animation-duration:0.5s;
+    animation-timing-function:ease-out;
+    /* animation-delay:2s; */
+    /* animation-iteration-count:infinite; */
+  }
+
     > img {
       opacity:.6;
       filter:blur(50px);
@@ -36,6 +48,17 @@ export const PlayerTop = styled.div`
   color:${props => props.theme.$color$text};
   padding-top:10px;
   text-align:"center";
+  position:fixed;
+  left:0;
+  top:0;
+
+  &.animation-element{
+    animation-duration:0.5s;
+    animation-timing-function:ease-out;
+    /* animation-delay:s;  */
+    /* animation-iteration-count:infinite; */
+  }
+
   > i {
     position:absolute;
     left:15px;
@@ -57,19 +80,25 @@ export const PlayerTop = styled.div`
 `
 
 export const PlayerCDWapper = styled.div`
-  width:100%;
+  /* width:100%; */
+  width:600px;
   height:600px;
-  padding-top:100px;
-  position: relative;
+  margin-left:-300px;
+  margin-top:-300px;
+  top:40%;
+  left:50%;
+  position: fixed;
   > .CDWapper {
-    position:absolute;
-    width:600px;
-    height:600px;
-    left:50%;
-    margin-left:-300px;
+    &.animation-element{
+      animation-duration:0.8s;
+      animation-timing-function:ease-out;
+      /* animation-delay:1s;  */
+    }
+
     .rotation {
       animation: ${imgRotation} 8s linear infinite;
     }
+
     img {
       border-radius:50%;
       border:10px solid hsla(0,0%,100%,.1);

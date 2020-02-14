@@ -23,10 +23,10 @@ export const RecommentItem = styled.div`
   }
   > div {
     float:left;
-    font-size:14px;
+    font-size:30px;
     > h2 {
       color:#FFF;
-      margin-bottom:40px;
+      margin:20px 0;
     }
     > p {
       color:hsla(0,0%,100%,.3);

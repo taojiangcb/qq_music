@@ -5,17 +5,22 @@ import { iPlayProps } from './PlayerPage';
 const ButtonGroupWapper = styled.div`
   display:flex;
   flex-direction:row;
-
   justify-content:center;
-
   width:100%;
   height:100px;
   /* padding:0 30px; */
   position:fixed;
   bottom:120px;
 
+  &.animation-element{
+    animation-duration:0.6s;
+    animation-timing-function:ease-out;
+    /* animation-delay:1s;  */
+  }
+
   div {
     flex:0 0 120px;
+    text-align:center;
   }
 
   i {
@@ -37,7 +42,7 @@ export class PlayerButtonGroup extends Component<iPlayProps, iState> {
 
   private prev_cs = 'iconLastshangyiqu';
   private next_cs = 'iconNextxiayiqu';
-  private play_cs = ['iconPausezanting', 'iconPlaybofang'];
+  private play_cs = ['iconPlaybofang', 'iconPausezanting'];
   private like_cs = ['iconLikexihuan'];
   private mode_cs = ['iconListCycleliebiaoxunhuan', 'iconSingleCycledanquxunhuan', 'iconRandomPlaysuijibofang'];
 
@@ -76,7 +81,7 @@ export class PlayerButtonGroup extends Component<iPlayProps, iState> {
     let likecs = this.like_cs[0];
 
     return (
-      <ButtonGroupWapper>
+      <ButtonGroupWapper className={'player-btn-group-wapper animation-element'}>
         <div><i onClick={this.modecsClk} className={`iconfont ${modecs}`}></i></div>
         <div><i onClick={this.prevClk} className={`iconfont ${this.prev_cs}`}></i></div>
         <div><i onClick={this.pauseClk} className={`iconfont ${playcs}`}></i></div>

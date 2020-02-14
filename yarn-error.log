@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/react-hooks-fetch
+  /usr/local/bin/node /usr/local/bin/yarn add @types/animate.css
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.org/@types%2freact-hooks-fetch: Not found
+  Error: https://registry.npmjs.org/@types%2fanimate.css: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66926:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140564:22)
       at Request.emit (events.js:198:13)
@@ -78,6 +78,7 @@ npm manifest:
       "@types/yargs": "^15.0.0",
       "MD5": "^1.3.0",
       "add": "^2.0.6",
+      "animate.css": "^3.7.2",
       "antd": "^3.25.2",
       "babel-plugin-import": "^1.12.2",
       "better-scroll": "1.5.0",
@@ -1962,6 +1963,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.npmjs.org/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
     integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
+  
+  animate.css@^3.7.2:
+    version "3.7.2"
+    resolved "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz#e73e0d50e92cb1cfef1597d9b38a9481020e08ea"
+    integrity sha512-0bE8zYo7C0KvgOYrSVfrzkbYk6IOTVPNqkiHg2cbyF4Pq/PXzilz4BRWA3hwEUBoMp5VBgrC29lQIZyhRWdBTw==
   
   ansi-align@^2.0.0:
     version "2.0.0"

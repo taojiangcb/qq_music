@@ -1,13 +1,20 @@
 import React, { Component, RefObject } from 'react';
 import { StatuBar } from '../components/statubar/StatuBar';
-import { IconPlay, RankMusicWapper, MusicBanner, RankMusicFilter, SongListItem } from './MusicList.styled';
+import { IconPlay, MusicListWapper, MusicBanner, RankMusicFilter, SongListItem } from './MusicList.styled';
 import { initLoadData } from '../../redux/Store';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { Song } from '../../logicFunction/Song';
-import { action_play_Song, action_featch_musiclist } from '../components/player/reducer/Actions.play';
+import {
+  action_play_Song,
+  action_featch_musiclist,
+  action_play_model,
+  action_play_showPage
+} from '../components/player/reducer/Actions.play';
 import { Scroll } from '../components/scroll/Scroll';
+import { animateCSS } from '../animateCSS/Animatecss';
+import { PLAY_MODE } from '../../logicFunction/Constant';
 
 interface iPorps {
 
@@ -17,6 +24,8 @@ interface iPorps {
   onBack?: Function;
   play_song?: (song: Song) => void;
   set_list?: (songs: Song[]) => void;
+  change_mode?: (mode: PLAY_MODE) => void;
+  show_page?: (show: boolean) => void;
 }
 
 interface iState { }
@@ -31,7 +40,7 @@ class MusicList extends Component<iPorps, iState> {
 
   private onBackHandler = () => {
     let { onBack } = this.props;
-    onBack && onBack();
+    this.fadeOut(onBack);
   }
 
   private onScroll(e) {
@@ -44,19 +53,31 @@ class MusicList extends Component<iPorps, iState> {
     return rect.bottom - rect.top;
   }
 
+  private itemClick = (item) => {
+    this.props.play_song(item);
+    this.props.show_page(true);
+    this.forceUpdate();
+  }
+
+  private randomClick = () => {
+    this.props.change_mode(PLAY_MODE.RANDOM);
+    let index = Math.round(Math.random() * this.props.songList.length);
+    let song = this.props.songList[index];
+    this.props.play_song(song);
+    this.props.show_page(true);
+  }
+
   render() {
-    // let { topInfo } = this.props;
-    // let title = topInfo.topTitle;
+
     let { title, showRank } = this.props;
     let { songList } = this.props;
     let backimg = songList && songList.length > 0 ? songList[0].image : ""
     const iconCls = (index) => (index < 3 ? "icon" + index : 'text')
     const getDesc = (song: Song) => (`${song.singer}·${song.album}`);
     const render_list = (
-      songList && songList.map((item:Song, index) => (
+      songList && songList.map((item: Song, index) => (
         <SongListItem key={item.mid || item.url} onClick={e => {
-          this.props.play_song(item);
-          this.forceUpdate();
+          this.itemClick(item);
         }}>
           {
             showRank
@@ -75,38 +96,44 @@ class MusicList extends Component<iPorps, iState> {
     )
 
     return (
-      <RankMusicWapper>
+      <MusicListWapper className={'music-list-wapper animation-element'}>
         <MusicBanner ref={this.bannerRef} backImg={backimg}>
           <RankMusicFilter />
           <StatuBar onBack={this.onBackHandler} title={title}></StatuBar>
           <IconPlay>
             <i className={'iconfont iconPausezanting'}></i>
-            <span>随机播放</span>
+            <span onClick={e => {
+              this.randomClick();
+            }} >随机播放</span>
           </IconPlay>
         </MusicBanner>
         <Scroll calcOffH={this.scrollOffH}>
           {render_list}
         </Scroll>
-      </RankMusicWapper>
+      </MusicListWapper>
     )
+  }
+
+  private fadeIn = () => {
+    animateCSS('.music-list-wapper', "slideInRight");
+  }
+
+  private fadeOut = (cb) => {
+    animateCSS('.music-list-wapper', "slideOutRight", cb)
   }
 
   componentDidMount = async () => {
     let { set_list, songList } = this.props;
-    if (set_list && songList) set_list(songList);
-    // let { topInfo } = this.props;
-    // await loadTopmusic(topInfo.id);
+    this.fadeIn();
+    setTimeout(() => {
+      if (set_list && songList) set_list(songList);
+    }, 0)
   }
 }
 
-// export const loadTopmusic = async (topId?: number) => {
-//   return initLoadData(dispatch_featch_musiclist, topId)();
-// }
 
 const mapStateToProps = (state: any) => {
   return {
-    // topList: state.reducerRank.topList,
-    // songList: state.reducerPlay.songList,
   }
 }
 
@@ -117,16 +144,14 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
     },
     set_list(songs: Song[]) {
       dispatch(action_featch_musiclist(songs))
+    },
+    change_mode(mode: PLAY_MODE) {
+      dispatch(action_play_model(mode));
+    },
+    show_page(show: boolean) {
+      dispatch(action_play_showPage(show));
     }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MusicList);
-// const MusicListConnect = connect(mapStateToProps, mapDispatchToProps)(MusicList);
-//export default MusicListConnect;
-
-
-// const SuspenseMusicList = (requestFn: Function, title?: string) => {
-//   let songList = requestFn();
-// }
-//export default connect(mapStateToProps, mapDispatchToProps)(MusicList)

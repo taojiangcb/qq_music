@@ -7,7 +7,7 @@ function r(pxValue) {
   if (Array.isArray(pxValue)) {
     pxValue = pxValue[0];
   }
-
+  
   pxValue = parseInt(pxValue);
   return pxValue / ratio + 'rem';
 }

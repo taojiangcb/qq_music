@@ -1,6 +1,7 @@
 import { Song } from '../../../../logicFunction/Song';
 import { AnyAction } from 'redux';
 import { ACTIONS } from '../../../../redux/ActionConst';
+import { PLAY_MODE } from '../../../../logicFunction/Constant';
 
 
 export function action_play_Song(song: Song): AnyAction {
@@ -11,6 +12,32 @@ export function action_play_Song(song: Song): AnyAction {
       return {
         ...state,
         curSong: action.data,
+      }
+    }
+  }
+}
+
+export function action_play_model(model: PLAY_MODE): AnyAction {
+  return {
+    type: ACTIONS.ACTION_PLAY_MODE,
+    data: model,
+    receiver(state: any, action: AnyAction) {
+      return {
+        ...state,
+        mode: action.data
+      }
+    }
+  }
+}
+
+export function action_play_showPage(show: Boolean): AnyAction {
+  return {
+    type: ACTIONS.ACTION_SHOW_PAGE,
+    data: show,
+    receiver(state: any, action: AnyAction) {
+      return {
+        ...state,
+        showPageFlag: action.data
       }
     }
   }

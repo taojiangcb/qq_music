@@ -1,19 +1,20 @@
 import React from 'react';
-
-import  Home  from "../pages/home/Home";
+import Home from "../pages/home/Home";
 import { Login } from "../pages/login/Login";
 import { RouteConfig } from 'react-router-config';
 import { AppRouters } from './RouteApp';
 import { NotFund } from '../pages/notFund/NotFund';
 import RecommendComponent, { initRecommendData } from '../pages/recommon/RecommentPage';
 import RankPage, { initRankData } from '../pages/rank/RankPage';
+import  SearchPage  from '../pages/search/SearchPage';
 
 export const RouterKeys = {
   home: "home",
   recommend: 'recommend',
   rank: 'rank',
   singer: 'singer',
-  login: 'login'
+  login: 'login',
+  search: 'search'
 }
 
 export const RouterComponets: { [key: string]: any } = {
@@ -23,7 +24,6 @@ export const RouterComponets: { [key: string]: any } = {
   singer: {},
   login: {}
 }
-
 
 export const Routers: RouteConfig[] = [
   {
@@ -51,6 +51,13 @@ export const Routers: RouteConfig[] = [
         loadData: initRankData,
         key: RouterKeys.rank
       },
+      {
+        path: '/' + RouterKeys.search,
+        component: SearchPage,
+        exact: true,
+        key: RouterKeys.search
+      },
+
       // {
       //   path: '/recommend',
       //   component: Home,
