@@ -63,6 +63,7 @@ export const PlayerBarWaraper = styled.div.attrs((props: any) => ({ img: props.i
     background-color:#FFF;
     display:block;
   }
+  
   .imgCirRation {
     animation: ${imgRotation} 5s linear infinite;
   }

@@ -13,47 +13,48 @@ import { PlayerProcess } from './CircleProgress';
 import PlayerPage, { iPlayProps } from './PlayerPage';
 import { action_play_Song, action_play_model, action_play_showPage, action_featch_musiclist } from './reducer/Actions.play';
 import { clientStore } from '../../../redux/Store';
+import { saveHistorySong } from '../../../logicFunction/OS';
+import PlayerList from './PlayerList';
 
 enum EType {
-  play = 'play',                //事件在暂停时触发
-  error = 'error',              //事件在发生错误时触发
-  pause = 'pause',              //事件在关闭弹窗时触发
+  play = 'play',                            //事件在暂停时触发
+  error = 'error',                          //事件在发生错误时触发
+  pause = 'pause',                          //事件在关闭弹窗时触发
   add = 'add',
-  ended = 'ended',              //事件在播放停止时触发
-  timeupdate = 'timeupdate',    //事件在播放位置发生改变时触发
-  waiting = 'waiting'           //事件在缓冲数据时触发
+  ended = 'ended',                          //事件在播放停止时触发
+  timeupdate = 'timeupdate',                //事件在播放位置发生改变时触发
+  waiting = 'waiting'                       //事件在缓冲数据时触发
 }
 
 interface iPorps {
-  curSong?: Song;
-  songList?: Song[];
+  curSong?: Song;                                 //当前播放的 song 
+  songList?: Song[];                              //播放的列表
+  mode?: PLAY_MODE;                               //播放的模式
   play_song?: (song: Song) => void;
-  mode?: PLAY_MODE;
-  change_mode?: (mode: PLAY_MODE) => void;
-  showPageFlag?: boolean;
+  change_mode?: (mode: PLAY_MODE) => void;        //改变播放模式
   show_page?: (show: boolean) => void;
+  showPageFlag?: boolean;                         //是否显示播放页
 }
 
 interface iState {
-  // mode?: PLAY_MODE.LOOP_LIST;       //播放模式
-  isPlay?: boolean;                 //是否player
-  percent?: number;                 //百分比
+  // mode?: PLAY_MODE.LOOP_LIST;        //播放模式
+  isPlay?: boolean;                     //是否player
+  percent?: number;                     //百分比
+  showPlayList?: boolean;               //显示播放列表
 }
 
 class PlayerBar extends PureComponent<iPorps, iState> {
   private player;
   constructor(props: iPorps) {
     super(props);
-
     this.player = new QMPlayer();
     this.player.loop = false;
 
-    this.state = {
-      isPlay: true,
-      percent: 0,
-    }
+    this.state = { isPlay: true, percent: 0, showPlayList: false };
+
   }
 
+  /** 播放 & 暂停 */
   private pauseClickHandler = (e) => {
     let { curSong } = this.props;
     this.player.toggle();
@@ -61,11 +62,12 @@ class PlayerBar extends PureComponent<iPorps, iState> {
 
   render() {
     let { curSong, mode, showPageFlag } = this.props;
-    let { isPlay } = this.state;
+    let { isPlay, showPlayList } = this.state;
     let img = curSong ? curSong.image : '';
     let songName = curSong ? curSong.name : '';
     let percent = this.state.percent || 0;
     const getDesc = (song: Song) => (song ? `${song.singer}·${song.album}` : "");
+
 
     let progressProps: iPlayProps = {
       mode,
@@ -77,6 +79,9 @@ class PlayerBar extends PureComponent<iPorps, iState> {
       hidePage: this.hidePage,
       modeChange: this.modeChange
     }
+
+    let otherProps = { ...progressProps };
+    delete otherProps['percent'];
 
     const renderBar = (
       !showPageFlag
@@ -90,7 +95,7 @@ class PlayerBar extends PureComponent<iPorps, iState> {
           </div>
           <div className="c3">
             <PlayerProcess {...progressProps}></PlayerProcess>
-            <i className="iconfont iconSongListgedan"></i>
+            <i onClick={e => { this.setState({ showPlayList: !this.state.showPlayList }) }} className="iconfont iconSongListgedan"></i>
           </div>
         </PlayerBarWaraper>
         : ""
@@ -98,7 +103,7 @@ class PlayerBar extends PureComponent<iPorps, iState> {
 
     const renderPlayPage = (
       showPageFlag && curSong
-        ? <PlayerPage {...progressProps}></PlayerPage>
+        ? <PlayerPage {...otherProps}></PlayerPage>
         : ""
     )
 
@@ -106,10 +111,13 @@ class PlayerBar extends PureComponent<iPorps, iState> {
       <Fragment>
         {renderBar}
         {renderPlayPage}
+        {showPlayList ? <PlayerList onClosePlayList={this.onClosePlayList} {...otherProps}></PlayerList> : ''}
       </Fragment >
     )
   }
 
+
+  /**开始播放 */
   private onPlay = (e) => {
     console.log('play');
     if (!this.state.isPlay) {
@@ -117,20 +125,18 @@ class PlayerBar extends PureComponent<iPorps, iState> {
     }
   }
 
+  /**首个播放结束 */
   private onEnded = (e) => {
     console.log('ended');
     this.nextPlay();
   }
 
+  /**变更播放模式 */
   private modeChange = (e) => {
     console.log('modeChnge');
     let { mode, change_mode } = this.props;
-    if (mode == Number(PLAY_MODE.RANDOM)) {
-      mode = PLAY_MODE.LOOP_LIST;
-    }
-    else {
-      mode++;
-    }
+    if (mode == Number(PLAY_MODE.RANDOM)) { mode = PLAY_MODE.LOOP_LIST; }
+    else { mode++; }
     change_mode && change_mode(mode);
   }
 
@@ -145,10 +151,14 @@ class PlayerBar extends PureComponent<iPorps, iState> {
     if (this.state.isPlay) this.setState({ isPlay: false });
   }
 
+  private onClosePlayList = (e) => {
+    this.setState({ showPlayList: false });
+  }
+
   private nextPlay = () => {
     console.log('nextPlay');
     let { curSong, songList, play_song } = this.props;
-    if(songList.length === 0) return;
+    if (songList.length === 0) return;
     let { mode } = this.props;
     if (mode === Number(PLAY_MODE.LOOP_LIST) || mode === Number(PLAY_MODE.LOOP_ONCE)) {
       let idx = songList.indexOf(curSong);
@@ -199,7 +209,6 @@ class PlayerBar extends PureComponent<iPorps, iState> {
   }
 
   private onPlayerError = (e) => {
-    console.log('playError');
     let { songList, curSong } = this.props;
     let nList = songList.concat();
     this.nextPlay();
@@ -244,6 +253,8 @@ class PlayerBar extends PureComponent<iPorps, iState> {
     let { curSong } = this.props;
     if (this.player && curSong) {
       this.player.play(curSong.mid);
+      //保存到历史记录
+      saveHistorySong(curSong);
     }
   }
 

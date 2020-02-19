@@ -98,4 +98,3 @@ const webpack_build_cilprod = merge(cliBaseConf, {
 })
 
 module.exports = webpack_build_cilprod;
-

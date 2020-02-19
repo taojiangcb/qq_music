@@ -2,8 +2,10 @@ import { Base64 } from 'js-base64'
 import { getLyric } from '../api/Song';
 import { ERR_OK } from './Constant';
 
+
+
 export class Song {
-  private id: string;
+  id: string;
   mid: string;
   singer: string;
   name: string;
@@ -56,12 +58,7 @@ export function createSong(musicData) {
 
 function filterSinger(singer) {
   let ret = []
-  if (!singer) {
-    return ''
-  }
-  singer.forEach((s) => {
-    ret.push(s.name)
-  })
+  if (!singer) { return '' }
+  singer.forEach((s) => { ret.push(s.name); })
   return ret.join('/')
 }
-

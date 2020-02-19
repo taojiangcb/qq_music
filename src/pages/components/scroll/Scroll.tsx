@@ -6,6 +6,7 @@ interface iPorps {
   calcOffH?: Function,
   scrollToBottom?: Function;
   scrollToTop?: Function;
+  outsiteHeight?: string;     //外部传入的高度
 }
 
 interface iState { }
@@ -47,17 +48,20 @@ export class Scroll extends Component<iPorps, iState> {
   }
 
   render() {
+    let { outsiteHeight } = this.props;
     const renderScrollWapper = (
-      <ScrollWapper ref={this.scrollRef}>
+      <ScrollWapper outsiteHeight={outsiteHeight} ref={this.scrollRef}>
         <div ref={this.scrollContainer}>
           {this.props.children}
         </div>
       </ScrollWapper>
     )
 
-    return (<div>
-      {renderScrollWapper}
-    </div>)
+    return (
+      <div>
+        {renderScrollWapper}
+      </div>
+    )
   }
 
   private initScroll = () => {
@@ -81,7 +85,7 @@ export class Scroll extends Component<iPorps, iState> {
 
 
       this.updateScroll();
-      window.addEventListener('resize',()=> {
+      window.addEventListener('resize', () => {
         this.updateScroll();
       });
 
@@ -104,13 +108,19 @@ export class Scroll extends Component<iPorps, iState> {
   }
 
   private updateScroll() {
+    let { outsiteHeight } = this.props;
     if (this.iScroll) {
       setTimeout(() => { this.iScroll.refresh(); }, 0);
       if (this.scrollRef.current) {
-        let cliH = window.innerHeight;
-        let offHandler = this.props.calcOffH || navHeaderH;
-        let h = cliH - offHandler() - playerBarH();
-        this.scrollRef.current.style.height = h + 'px';
+        if (outsiteHeight) {
+          this.scrollRef.current.style.height = outsiteHeight;
+        }
+        else {
+          let cliH = window.innerHeight;
+          let offHandler = this.props.calcOffH || navHeaderH;
+          let h = cliH - offHandler() - playerBarH();
+          this.scrollRef.current.style.height = h + 'px';
+        }
       }
     }
   }

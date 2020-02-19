@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-
+    
     "clear": "npm-run-all --parallel clear:**",
     "clear:bin": "rm -fr ./bin",
     "clear:dist": "rm -fr ./dist",

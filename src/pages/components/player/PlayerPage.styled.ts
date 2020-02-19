@@ -14,9 +14,7 @@ export const PlayerPaperWapper = styled.div`
   position:fixed;
   left:0;
   top:0;
-
-  
-  
+ 
 
   .bg {
     width:100%;

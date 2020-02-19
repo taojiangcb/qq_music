@@ -4,7 +4,6 @@ const path = require('path');
 
 let workSpaceDir = __dirname;
 
-
 gulp.task('cpbin', function () {
   let viewDir = `${workSpaceDir}/bin/**/*.*`;
   var stream = gulp.src([viewDir]);
@@ -23,16 +22,12 @@ gulp.task("cpFile", function () {
   );
 });
 
-gulp.task('build:prod', () => {
-  return exec('npm run pb');
-})
+gulp.task('build:prod', () => { return exec('npm run pb'); })
 gulp.task('pb', gulp.series('build:prod', 'cpbin', 'cpFile'));
-
 gulp.task('rsync:test', function () {
   let dist = path.resolve(__dirname, './bin');
   return exec(`rsync -avz --rsh=ssh ${dist}/*.* root@47.100.202.222:/opt/resource/nginx/www/qq_music_test`);
 })
-
 
 gulp.task('spa:build:test', () => { return exec('npm run spa:pb:test'); });
 gulp.task('deploy:spa:test', gulp.series('spa:build:test', 'rsync:test'));

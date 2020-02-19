@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 import styled from 'styled-px2vw';
 import { iPlayProps } from './PlayerPage';
+import { mode_cs } from './PlayModeBtn';
 
 const ButtonGroupWapper = styled.div`
   display:flex;
@@ -43,8 +44,7 @@ export class PlayerButtonGroup extends Component<iPlayProps, iState> {
   private prev_cs = 'iconLastshangyiqu';
   private next_cs = 'iconNextxiayiqu';
   private play_cs = ['iconPlaybofang', 'iconPausezanting'];
-  private like_cs = ['iconLikexihuan'];
-  private mode_cs = ['iconListCycleliebiaoxunhuan', 'iconSingleCycledanquxunhuan', 'iconRandomPlaysuijibofang'];
+  private like_cs = ['iconshoucang'];
 
   constructor(props: iPlayProps) {
     super(props);
@@ -69,6 +69,7 @@ export class PlayerButtonGroup extends Component<iPlayProps, iState> {
   private pauseClk = e => {
     let { pauseHandler } = this.props;
     pauseHandler && pauseHandler(e);
+
   }
 
   render() {
@@ -76,7 +77,7 @@ export class PlayerButtonGroup extends Component<iPlayProps, iState> {
     let mode = this.props.mode || 1;
     let isPlay = this.props.isPlay || false;
 
-    let modecs = this.mode_cs[mode - 1];
+    let modecs = mode_cs[mode - 1];
     let playcs = isPlay ? this.play_cs[0] : this.play_cs[1];
     let likecs = this.like_cs[0];
 

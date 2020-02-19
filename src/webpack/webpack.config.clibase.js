@@ -57,8 +57,8 @@ const webpack_build_cilbase = merge(baseConf, {
             loader: 'sass-resources-loader',
             options: {
               resources: [
-                resolve(__dirname, '../assets/common.scss'),
-                resolve(__dirname, '../assets/icon.scss'),
+                // resolve(__dirname, '../assets/common.scss'),
+                // resolve(__dirname, '../assets/icon.scss'),
               ]
             }
           }

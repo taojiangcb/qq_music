@@ -9,7 +9,6 @@ export const HeaderContianer = styled.div`
   color:${props => props.theme.$color$theme};
   padding-bottom:5px;
 `
-
 export const HeaderWapper = styled.div`
   position:relative;
   height:44px;
@@ -43,7 +42,6 @@ export const NavItem = styled.div`
   line-height:40px;
   width:100%;
   margin-top:40px;
-  
   > span { }
   > span:hover {
     border-bottom:3px solid ${props => props.theme.$color$theme};
@@ -54,5 +52,3 @@ export const NavItem = styled.div`
     } 
   }
 `
-
-

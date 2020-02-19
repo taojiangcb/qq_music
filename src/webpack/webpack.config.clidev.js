@@ -38,9 +38,8 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
     // historyApiFallback: true, //不跳转
     // inline: true, //实时刷新
     hot: true,  // 使用热加载插件 HotModuleReplacementPlugin
-
+    
     // before(app, server) {
-
     //   if (fs.existsSync(paths.proxySetup)) {
     //     // This registers user provided middleware for proxy reasons
     //     require(paths.proxySetup)(app);

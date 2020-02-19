@@ -135,9 +135,7 @@ class SliderImage extends Component<iInitProps, iState> {
 
     this.setSliderWidth(true);
     this.slider.update();
-    if (autoPlay) {
-      this.play();
-    }
+    if (autoPlay) { this.play(); }
   }
 
   componentDidMount() {
