@@ -83,7 +83,7 @@ export const PlayerCDWapper = styled.div`
   height:600px;
   margin-left:-300px;
   margin-top:-300px;
-  top:40%;
+  top:35%;
   left:50%;
   position: fixed;
   > .CDWapper {

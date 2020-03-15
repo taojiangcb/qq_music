@@ -2,6 +2,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { getTopList, getMusicList } from "../../../api/Rank";
 import { ACTIONS } from "../../../redux/ActionConst";
+
 // import { ERR_OK } from "../../../logicFunction/Constant";
 // import { isTemplateExpression } from "typescript";
 // import { createSong } from "../../../logicFunction/song";
@@ -18,8 +19,6 @@ export function action_featch_toplist(list: any): AnyAction {
     }
   }
 }
-
-
 
 export function dispatch_featch_toplist() {
   return async (d: ThunkDispatch<any, any, AnyAction>) => {

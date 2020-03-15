@@ -59,7 +59,7 @@ class Recomment extends Component<initProps, iState> {
     const slider_crt = () => {
       let items = slider && slider.map((item: Model.Slider, index: number) => {
         return (
-          <SliderImageItem key={item.id + index} className={'swiper-slide'}>
+          <SliderImageItem key={item.picUrl + index} className={'swiper-slide'}>
             <img src={item.picUrl} alt={item.id.toString()} className={'swiper-lazy'} />
             {/* <a href={item.linkUrl}>
             </a> */}

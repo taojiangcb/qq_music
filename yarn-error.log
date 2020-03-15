@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/animate.css
+  /usr/local/bin/node /usr/local/bin/yarn add @types/rxjs
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.org/@types%2fanimate.css: Not found
+  Error: https://registry.npmjs.org/@types%2frxjs: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66926:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140564:22)
       at Request.emit (events.js:198:13)
@@ -37,7 +37,10 @@ npm manifest:
       "clear": "npm-run-all --parallel clear:**",
       "clear:bin": "rm -fr ./bin",
       "clear:dist": "rm -fr ./dist",
-      "devcli": "NODE_ENV='development' webpack-dev-server --mode development --config ./src/webpack/webpack.config.clidev.js --env=dev",
+      "spa:dev": "NODE_ENV='development' webpack-dev-server --mode development --config ./src/webpack/webpack.config.clidev.js --env=dev",
+      "spa:build": "webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=prod",
+      "spa:pb": "npm run clear && webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=dev",
+      "spa:pb:test": "npm run clear && webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=test",
       "dev": "npm-run-all --parallel dev:**",
       "dev:ssr:start": "nodemon --watch bin --exec node ./bin/ssr-svr.js",
       "dev:build:svr": "webpack --mode development --config ./src/webpack/webpack.config.svrbase.js --watch",
@@ -121,6 +124,7 @@ npm manifest:
       "redux": "^4.0.4",
       "redux-thunk": "^2.3.0",
       "reflect-metadata": "^0.1.13",
+      "rxjs": "^6.5.4",
       "shelljs": "^0.8.3",
       "styled-components": "^5.0.0",
       "styled-px2vw": "^1.0.9",
@@ -10331,7 +10335,7 @@ Lockfile:
     dependencies:
       aproba "^1.1.1"
   
-  rxjs@^6.5.3:
+  rxjs@^6.5.3, rxjs@^6.5.4:
     version "6.5.4"
     resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.5.4.tgz#e0777fe0d184cec7872df147f303572d414e211c"
     integrity sha512-naMQXcgEo3csAEGvw/NydRA0fuS2nDZJiw1YUWFKU7aPPAPGZEsD4Iimit96qwCieH6y614MCLYwdkrWx7z/7Q==

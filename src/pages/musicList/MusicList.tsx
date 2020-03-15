@@ -76,7 +76,7 @@ class MusicList extends Component<iPorps, iState> {
     const getDesc = (song: Song) => (`${song.singer}·${song.album}`);
     const render_list = (
       songList && songList.map((item: Song, index) => (
-        <SongListItem key={item.mid || item.url} onClick={e => {
+        <SongListItem key={item.url || item.mid} onClick={e => {
           this.itemClick(item);
         }}>
           {
@@ -133,8 +133,7 @@ class MusicList extends Component<iPorps, iState> {
 
 
 const mapStateToProps = (state: any) => {
-  return {
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {

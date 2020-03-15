@@ -33,17 +33,8 @@ const ProcessWapper = styled.div`
       height:100%;
       text-align:center;
       vertical-align:middle;
-      /* margin-left:-44px;
-      margin-top:-60px; */
-      /* margin-top:-40px; */
   }
 `
-
-// interface iProps {
-//   percent?: number;
-//   isPlay?: boolean;
-//   pauseClick?: Function;
-// }
 
 export const PlayerProcess = (props: iPlayProps) => {
   let percent = props.percent;

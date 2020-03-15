@@ -117,7 +117,7 @@ const HistoryList = React.memo((props: any) => {
     setHeight(h);
   }, []);
 
-  let itemClick = useCallback(item => { props.play_song(item); })
+  let itemClick = useCallback(item => { props.play_song(item); }, []);
 
   let smid = curSong && curSong.mid || "";
   const renderList = (

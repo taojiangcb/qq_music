@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { commonParams } from '../logicFunction/Constant'
+import { apiInstance } from './ApiInstance'
+
 
 export function getLyric(mid): Promise<any> {
   const url = '/api/lyric'
@@ -12,5 +14,5 @@ export function getLyric(mid): Promise<any> {
     pcachetime: +new Date(),
     format: 'json'
   })
-  return axios.get(url, { params: data })
+  return apiInstance.get(url, { params: data })
 }

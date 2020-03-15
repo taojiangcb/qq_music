@@ -11,7 +11,7 @@ const ButtonGroupWapper = styled.div`
   height:100px;
   /* padding:0 30px; */
   position:fixed;
-  bottom:120px;
+  bottom:40px;
 
   &.animation-element{
     animation-duration:0.6s;

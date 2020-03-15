@@ -23,9 +23,15 @@ slideOutDown	slideOutLeft	slideOutRight	slideOutUp
 heartBeat
 */
 
+const EVENT_END: string = 'animationend';
+/**
+ * css 动画播放处理
+ * @param el            播放的对象
+ * @param animateName   动画名称
+ * @param callBack      回调处理
+ */
 function animateCSS<T extends String | HTMLElement>(el: T, animateName: string, callBack?: Function) {
-  
-  const EVENT_END: string = 'animationend';
+
   let node: HTMLElement
   if (isType(el, __TYPES__.String)) { node = document.querySelector(String(el)); }
   else if (el instanceof HTMLElement) { node = el; }
@@ -34,7 +40,7 @@ function animateCSS<T extends String | HTMLElement>(el: T, animateName: string, 
     node.removeEventListener(EVENT_END, theEnd);
     callBack && callBack();
   }
-
+  
   if (node) {
     if (node.classList) node.classList.add(animateName);
     node.addEventListener(EVENT_END, theEnd);

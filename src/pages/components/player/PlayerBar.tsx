@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, Component, RefObject, Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 import { PlayerBarWaraper } from './PlayerBar.styled';
 import { PLAY_MODE } from '../../../logicFunction/Constant';
 import { Song } from '../../../logicFunction/song';
@@ -15,6 +15,7 @@ import { action_play_Song, action_play_model, action_play_showPage, action_featc
 import { clientStore } from '../../../redux/Store';
 import { saveHistorySong } from '../../../logicFunction/OS';
 import PlayerList from './PlayerList';
+import { ThunkDispatch } from 'redux-thunk';
 
 enum EType {
   play = 'play',                            //事件在暂停时触发
@@ -41,6 +42,7 @@ interface iState {
   isPlay?: boolean;                     //是否player
   percent?: number;                     //百分比
   showPlayList?: boolean;               //显示播放列表
+  totalTime?: number;                   //当前的时间;
 }
 
 class PlayerBar extends PureComponent<iPorps, iState> {
@@ -49,9 +51,7 @@ class PlayerBar extends PureComponent<iPorps, iState> {
     super(props);
     this.player = new QMPlayer();
     this.player.loop = false;
-
     this.state = { isPlay: true, percent: 0, showPlayList: false };
-
   }
 
   /** 播放 & 暂停 */
@@ -60,9 +60,15 @@ class PlayerBar extends PureComponent<iPorps, iState> {
     this.player.toggle();
   }
 
+  private changeTime = (time: number) => {
+    if (this.player) {
+      this.player.currentTime = time;
+    }
+  }
+
   render() {
     let { curSong, mode, showPageFlag } = this.props;
-    let { isPlay, showPlayList } = this.state;
+    let { isPlay, showPlayList, totalTime } = this.state;
     let img = curSong ? curSong.image : '';
     let songName = curSong ? curSong.name : '';
     let percent = this.state.percent || 0;
@@ -73,11 +79,13 @@ class PlayerBar extends PureComponent<iPorps, iState> {
       mode,
       isPlay,
       percent,
+      totalTime,
       pauseHandler: this.pauseClickHandler,
       nextHandler: this.nextPlay,
       prevHandler: this.prevPlay,
       hidePage: this.hidePage,
-      modeChange: this.modeChange
+      modeChange: this.modeChange,
+      changeTime: this.changeTime
     }
 
     let otherProps = { ...progressProps };
@@ -103,7 +111,7 @@ class PlayerBar extends PureComponent<iPorps, iState> {
 
     const renderPlayPage = (
       showPageFlag && curSong
-        ? <PlayerPage {...otherProps}></PlayerPage>
+        ? <PlayerPage {...progressProps}></PlayerPage>
         : ""
     )
 
@@ -143,7 +151,7 @@ class PlayerBar extends PureComponent<iPorps, iState> {
   private onTimeupdate = (e) => {
     let totalTime = this.player.duration || 0;
     let p = this.player.currentTime / totalTime;
-    this.setState({ percent: p });
+    this.setState({ percent: p, totalTime: totalTime });
   }
 
   private onPause = (e) => {
@@ -184,7 +192,6 @@ class PlayerBar extends PureComponent<iPorps, iState> {
   }
 
   private prevPlay = () => {
-    console.log('prevPlay');
     let { curSong, songList, play_song } = this.props;
     let { mode } = this.props;
     if (mode === Number(PLAY_MODE.LOOP_LIST) || mode === Number(PLAY_MODE.LOOP_ONCE)) {
@@ -289,7 +296,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     play_song(song: Song) {
       dispatch(action_play_Song(song));
