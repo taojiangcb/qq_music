@@ -9,6 +9,7 @@
     "clear:bin": "rm -fr ./bin",
     "clear:dist": "rm -fr ./dist",
     "spa:dev": "NODE_ENV='development' webpack-dev-server --mode development --config ./src/webpack/webpack.config.clidev.js --env=dev",
+    "spa:dev:serverwork": "NODE_ENV='development' webpack-dev-server --mode development --config ./src/webpack/webpack.config.clidevserverwork.js --env=dev",
     "spa:build": "webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=prod",
     "spa:pb": "npm run clear && webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=dev",
     "spa:pb:test": "npm run clear && webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js --env=test",
@@ -16,6 +17,7 @@
     "dev:ssr:start": "nodemon --watch bin --exec node ./bin/ssr-svr.js",
     "dev:build:svr": "webpack --mode development --config ./src/webpack/webpack.config.svrbase.js --watch",
     "dev:build:cli": "webpack --mode development --config ./src/webpack/webpack.config.clibase.js --watch",
+    "dev:build:cli:serverwork": "webpack --mode development --config ./src/webpack/webpack.config.cliserverwork.js --watch",
     "pb": "npm run clear && npm-run-all --parallel pb:**",
     "pb:build:cli": "webpack --mode production --config ./src/webpack/webpack.config.prod.cli.js",
     "pb:build:svr": "webpack --mode development --config ./src/webpack/webpack.config.svrbase.js"
@@ -28,6 +30,7 @@
     "@types/file-saver": "^2.0.1",
     "@types/glob": "^7.1.1",
     "@types/helmet": "^0.0.45",
+    "@types/html-webpack-plugin": "^3.2.2",
     "@types/inversify": "^2.0.33",
     "@types/inversify-binding-decorators": "^2.0.0",
     "@types/iscroll": "^5.2.3",
@@ -48,6 +51,8 @@
     "@types/styled-components": "4.1.8",
     "@types/swig": "^0.0.29",
     "@types/swiper": "^5.2.1",
+    "@types/workbox-strategies": "^4.3.0",
+    "@types/workbox-webpack-plugin": "^5.0.0",
     "@types/xlsx": "^0.0.36",
     "@types/yargs": "^15.0.0",
     "MD5": "^1.3.0",
@@ -100,6 +105,8 @@
     "styled-components": "^5.0.0",
     "styled-px2vw": "^1.0.9",
     "swiper": "^5.3.0",
+    "workbox-strategies": "^5.0.0",
+    "workbox-webpack-plugin": "^5.0.0",
     "yargs": "^15.1.0"
   },
   "devDependencies": {

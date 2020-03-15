@@ -23,7 +23,6 @@ dotenvFiles.forEach((dotenvFile) => {
 });
 
 const REACT_APP = /^REACT_APP_/i;
-
 const envfn = function () {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))

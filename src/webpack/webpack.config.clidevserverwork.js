@@ -2,7 +2,7 @@
 const path = require('path')
 const { resolve } = path;
 const merge = require('webpack-merge');
-const cliBaseConf = require('./webpack.config.clibase');
+const cliserverwork = require('./webpack.config.cliserverwork');
 const appPath = require('../env/Paths');
 const webpack = require('webpack');
 
@@ -15,7 +15,7 @@ const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 const { env } = require('../env/Env');
 
-const webpack_build_cil_dev = merge(cliBaseConf, {
+const webpack_build_cil_devserverwork = merge(cliserverwork, {
   devServer: {
     proxy: {
       // 凡是 `/api` 开头的 http 请求，都会被代理到 localhost:3000 上，由 koa 提供 mock 数据。
@@ -68,13 +68,6 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
 
-    // app 模块
-    new HtmlWebpackPlugin({
-      template: resolve(__dirname, '../template/index.html'),
-      filename: 'index.html',
-      // chunks: ['common', 'app']
-    }),
-
     // 打开浏览器
     new OpenBrowserPlugin({
       url: 'http://localhost:8080/index.html',
@@ -101,10 +94,9 @@ const webpack_build_cil_dev = merge(cliBaseConf, {
       // additionalFormatters: [],
       // additionalTransformers: []
     })
-
     
   ]
 })
 
-module.exports = webpack_build_cil_dev;
+module.exports = webpack_build_cil_devserverwork;
 

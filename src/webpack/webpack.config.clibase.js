@@ -8,6 +8,7 @@ const appPath = require('../env/Paths');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+
 const { env } = require('../env/Env');
 const OS = require('os');
 
@@ -28,7 +29,7 @@ const webpack_build_cilbase = merge(baseConf, {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         include: appPath.root,
-        use:[
+        use: [
           {
             loader: 'thread-loader',
             options: {
