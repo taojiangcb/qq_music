@@ -11,7 +11,6 @@ const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
-
 const { env } = require('../env/Env');
 const OS = require('os');
 
