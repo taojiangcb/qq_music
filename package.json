@@ -172,6 +172,6 @@
     "webpack-node-externals": "^1.7.2",
     "whatwg-fetch": "^3.0.0",
     "yargs": "^15.0.2",
-    "yargs-parser": "^16.1.0"
+    "yargs-parser": "^18.1.2"
   }
 }
